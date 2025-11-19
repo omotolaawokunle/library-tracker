@@ -57,4 +57,21 @@ class LoanAPIController extends Controller
 
         return response()->noContent();
     }
+
+    public function putExtend(Request $request, int $id)
+    {
+        $request->validate([
+            'additional_days' => 'required|min:1|max:14'
+        ]);
+        $loan = Loan::find($id);
+        if (empty($loan)) {
+            throw new Exception('Could not find loan.');
+        }
+        if ($loan->due_at->gt(now())) {
+            throw new Exception("Loan is already overdue");
+        }
+        $loan->update(['due_at' => $loan->due_at->addDays($request->additional_days)]);
+
+        return $loan;
+    }
 }
