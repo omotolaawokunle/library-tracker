@@ -1,10 +1,13 @@
 <?php
 
-# 1.
-$a = [];
+$range = range(1, 20);
+shuffle($range);
+$originalArray = array_splice(array_values($range), 0, 10);
 
-# 2.
-$f = [];
+$filtered = array_filter($originalArray, fn($value) => $value < 10);
 
-# 3.
-// ...
+echo "Filtered Array: \n";
+print_r($filtered);
+echo "\n";
+echo "Original Array: \n";
+print_r($originalArray);
